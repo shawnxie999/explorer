@@ -231,8 +231,8 @@ class Streams extends Component {
     this.startWs(rippledUrl ?? process.env.REACT_APP_RIPPLED_HOST);
   }
 
-  startWs(rippledUrl, wss = true) {
-    const connection = wss ? 'wss' : 'ws';
+  startWs(rippledUrl, useWss = true) {
+    const connection = useWss ? 'wss' : 'ws';
     const wsUrl = `${connection}://${rippledUrl}:${process.env.REACT_APP_RIPPLED_WS_PORT}`;
     this.ws = new WebSocket(wsUrl);
     this.ws.last = Date.now();
@@ -241,7 +241,7 @@ class Streams extends Component {
     // handle error
     this.ws.onclose = e => {
       Log.warn(`ws closed`);
-      if (!e.wasClean && wss) {
+      if (!e.wasClean && useWss) {
         this.startWs(rippledUrl, false);
       }
     };
