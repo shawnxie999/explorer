@@ -283,6 +283,15 @@ div.react-stockchart div {
       background: $nft;
     }
   }
+
+  &.SidechainCreate {
+    border-left-color: $sidechain;
+    color: $sidechain;
+
+    &.bg {
+      background: $sidechain;
+    }
+  }
 }
 
 .tx-result {
