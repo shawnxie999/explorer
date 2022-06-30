@@ -1,5 +1,6 @@
 import { offerCreateMapper } from '../../../containers/shared/components/Transaction/OfferCreate/offerCreateMapper';
 import sidechainCreateMapper from '../../../containers/shared/components/Transaction/SidechainCreate/sidechainCreateMapper';
+import sidechainXChainSeqNumCreateMapper from '../../../containers/shared/components/Transaction/SidechainXChainSeqNumCreate/sidechainXChainSeqNumCreateMapper';
 
 const OfferCancel = require('./OfferCancel');
 const Payment = require('./Payment');
@@ -49,6 +50,7 @@ const summarize = {
   NFTokenCreateOffer,
   NFTokenMint,
   SidechainCreate: sidechainCreateMapper,
+  SidechainXChainSeqNumCreate: sidechainXChainSeqNumCreateMapper,
 };
 
 const getInstructions = (tx, meta) =>
