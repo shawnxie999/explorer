@@ -1,13 +1,11 @@
 import { TransactionMapping } from '../types';
 
 import SidechainCreateSimple from './SidechainCreateSimple';
-import SidechainCreateDescription from './SidechainCreateDescription';
 import sidechainCreateMapper from './sidechainCreateMapper';
-import SidechainCreateTableDetail from './SidechainCreateTableDetail';
 
 export const SidechainCreateTransaction: TransactionMapping = {
-  Description: SidechainCreateDescription,
+  Description: null,
   Simple: SidechainCreateSimple,
-  TableDetail: SidechainCreateTableDetail,
+  TableDetail: null,
   mapper: sidechainCreateMapper,
 };

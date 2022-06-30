@@ -67,8 +67,8 @@ export interface TransactionSimpleProps {
 export type TransactionSimpleComponent = React.FC<TransactionSimpleProps>;
 
 export interface TransactionMapping {
-  Description: TransactionDescriptionComponent;
+  Description: TransactionDescriptionComponent | null;
   Simple: TransactionSimpleComponent;
-  TableDetail: TransactionTableDetailComponent;
+  TableDetail: TransactionTableDetailComponent | null;
   mapper: (tx: any) => any;
 }

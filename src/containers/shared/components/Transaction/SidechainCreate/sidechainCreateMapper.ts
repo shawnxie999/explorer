@@ -1,36 +1,19 @@
-import formatAmount from '../../../../../rippled/lib/txSummary/formatAmount';
-
-const CURRENCY_ORDER = [
-  'CNY',
-  'JPY',
-  'CHF',
-  'CAD',
-  'NZD',
-  'AUD',
-  'GBP',
-  'USD',
-  'EUR',
-  'LTC',
-  'ETH',
-  'BTC',
-  'XAG',
-  'XAU',
-  'XRP',
-];
+interface SignerEntry {
+  SignerEntry: {
+    Account: string;
+    SignerWeight: string;
+  };
+}
 
 export default function sidechainCreateMapper(tx: any) {
-  const gets = formatAmount(tx.TakerGets);
-  const base = tx.TakerGets.currency || 'XRP';
-  const counter = tx.TakerPays.currency || 'XRP';
-  const pays = formatAmount(tx.TakerPays);
-  const price = pays.amount / gets.amount;
-  const invert = CURRENCY_ORDER.indexOf(counter) > CURRENCY_ORDER.indexOf(base);
-
+  // TODO: update when Sidechain return bug is fixed
   return {
-    gets,
-    pays,
-    price: (invert ? 1 / price : price).toPrecision(6),
-    pair: invert ? `${counter}/${base}` : `${base}/${counter}`,
-    cancel: tx.OfferSequence,
+    account: tx.Account,
+    sourceDoor: tx.Sidechain?.src_chain_door || 'rFakeAccount',
+    sourceIssue: tx.Sidechain?.src_chain_issue || 'fakeXRP',
+    destinationDoor: tx.Sidechain?.dst_chain_door || 'rFakeAccount2',
+    destinationIssue: tx.Sidechain?.dst_chain_issue || 'fakeXRP2',
+    signerQuorum: tx.SignerQuorum,
+    signerEntries: tx.SignerEntries.map((entry: SignerEntry) => entry.SignerEntry),
   };
 }
