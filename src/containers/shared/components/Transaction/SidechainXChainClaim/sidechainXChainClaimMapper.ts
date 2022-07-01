@@ -1,4 +1,4 @@
-export default function sidechainCreateMapper(tx: any) {
+export default function sidechainXChainClaimMapper(tx: any) {
   // TODO: update when Sidechain return bug is fixed
   return {
     account: tx.Account || 'rFakeAccount',
