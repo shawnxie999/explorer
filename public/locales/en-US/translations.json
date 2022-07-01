@@ -341,5 +341,7 @@
   "source_chain_door": "Source Chain Door",
   "source_chain_issue": "Source Chain Issue",
   "destination_chain_door": "Destination Chain Door",
-  "destination_chain_issue": "Destination Chain Issue"
+  "destination_chain_issue": "Destination Chain Issue",
+  "cross-chain_amount": "Cross-Chain Amount",
+  "cross-chain_sequence": "Cross-Chain Sequence"
 }
