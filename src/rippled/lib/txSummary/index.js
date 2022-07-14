@@ -1,5 +1,5 @@
 import { offerCreateMapper } from '../../../containers/shared/components/Transaction/OfferCreate/offerCreateMapper';
-import sidechainCreateMapper from '../../../containers/shared/components/Transaction/SidechainCreate/sidechainCreateMapper';
+import XChainCreateBridgeMapper from '../../../containers/shared/components/Transaction/XChainCreateBridge/xchainCreateBridgeMapper';
 
 const OfferCancel = require('./OfferCancel');
 const Payment = require('./Payment');
@@ -48,7 +48,7 @@ const summarize = {
   NFTokenCancelOffer,
   NFTokenCreateOffer,
   NFTokenMint,
-  SidechainCreate: sidechainCreateMapper,
+  XChainCreateBridge: XChainCreateBridgeMapper,
 };
 
 const getInstructions = (tx, meta) =>
