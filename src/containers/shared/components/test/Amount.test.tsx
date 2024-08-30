@@ -139,6 +139,7 @@ describe('Amount', () => {
       flags: [],
     }
 
+    // @ts-ignore
     useQuery.mockImplementation(() => ({
       data,
     }))
