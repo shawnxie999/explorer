@@ -1,8 +1,15 @@
 import { CURRENCY_OPTIONS, XRP_BASE } from '../transactionUtils'
 import { useLanguage } from '../hooks'
-import { localizeNumber } from '../utils'
+import { localizeNumber, localizeMPTNumber } from '../utils'
 import Currency from './Currency'
 import { ExplorerAmount } from '../types'
+import { useQuery } from 'react-query'
+import { MPTIssuanceFormattedInfo } from '../../shared/Interfaces'
+import { getMPTIssuance } from '../../../rippled/lib/rippled'
+import { formatMPTIssuanceInfo } from '../../../rippled/lib/utils'
+import SocketContext from '../../shared/SocketContext'
+import { useContext } from 'react'
+import { useAnalytics } from '../../shared/analytics'
 
 export interface AmountProps {
   value: ExplorerAmount | string
@@ -16,6 +23,8 @@ export const Amount = ({
   value,
 }: AmountProps) => {
   const language = useLanguage()
+  const rippledSocket = useContext(SocketContext)
+  const { trackException } = useAnalytics()
   const issuer = typeof value === 'string' ? undefined : value.issuer
   const currency = typeof value === 'string' ? 'XRP' : value.currency
   const amount =
@@ -23,25 +32,52 @@ export const Amount = ({
   const isMPT = typeof value === 'string' ? false : value.isMPT
 
   const options = { ...CURRENCY_OPTIONS, currency }
-  // If it's an MPT, we can use as it is because we don't need decimal
-  const localizedAmount =
-    isMPT && typeof value !== 'string'
-      ? value.amount
-      : localizeNumber(amount, language, options)
 
-  return (
-    <span className="amount">
-      <span className="amount-localized">
-        {modifier && <span className="amount-modifier">{modifier}</span>}
-        {localizedAmount}
-      </span>{' '}
-      <Currency
-        issuer={displayIssuer ? issuer : ''}
-        currency={currency}
-        link
-        displaySymbol={false}
-        isMPT={isMPT}
-      />
-    </span>
-  )
+  const renderAmount = (localizedAmount) => {
+    return (
+      <>
+        <span className="amount">
+          <span className="amount-localized">
+            {modifier && <span className="amount-modifier">{modifier}</span>}
+            {localizedAmount}
+          </span>{' '}
+          <Currency
+            issuer={displayIssuer ? issuer : ''}
+            currency={currency}
+            link
+            displaySymbol={false}
+            isMPT={isMPT}
+          />
+        </span>
+      </>
+    )
+  }
+
+  // if amount is MPT type, we need to fetch the scale from the MPTokenIssuance
+  // object so we can show the scaled amount
+  if (isMPT && typeof value !== 'string') {
+    const mptID = value.currency
+    const { data } = useQuery<MPTIssuanceFormattedInfo>(
+      ['getMPTIssuanceScale', mptID],
+      async () => {
+        const info = await getMPTIssuance(rippledSocket, mptID)
+        return formatMPTIssuanceInfo(info)
+      },
+      {
+        onError: (e: any) => {
+          trackException(`mptIssuance ${mptID} --- ${JSON.stringify(e)}`)
+        },
+      },
+    )
+
+    if (data) {
+      const scale = data.assetScale ?? 0
+      const scaledAmount = parseInt(amount as string, 10) / Math.pow(10, scale)
+      return renderAmount(localizeMPTNumber(scaledAmount))
+    }
+
+    return null
+  }
+
+  return renderAmount(localizeNumber(amount, language, options))
 }

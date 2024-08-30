@@ -3,13 +3,22 @@ import { BrowserRouter } from 'react-router-dom'
 import { mount } from 'enzyme'
 import { Amount } from '../Amount'
 import i18n from '../../../../i18n/testConfig'
+import { QueryClientProvider, useQuery } from 'react-query'
+import { queryClient } from '../../../shared/QueryClient'
+
+jest.mock('react-query', () => ({
+  ...jest.requireActual('react-query'),
+  useQuery: jest.fn(),
+}))
 
 describe('Amount', () => {
   const createWrapper = (component: JSX.Element) =>
     mount(
-      <I18nextProvider i18n={i18n}>
-        <BrowserRouter>{component}</BrowserRouter>
-      </I18nextProvider>,
+      <QueryClientProvider client={queryClient}>
+        <I18nextProvider i18n={i18n}>
+          <BrowserRouter>{component}</BrowserRouter>
+        </I18nextProvider>
+      </QueryClientProvider>,
     )
 
   it('handles currency codes that are 3 characters ', () => {
@@ -115,6 +124,35 @@ describe('Amount', () => {
     )
     expect(wrapper.find('.currency').text()).toEqual('XRP')
     expect(wrapper.find('.amount-localized').text()).toEqual('+\uE9000.009')
+    wrapper.unmount()
+  })
+
+  it('handles MPT amount', async () => {
+    const data = {
+      issuer: 'rL2LzUhsBJMqsaVCXVvzedPjePbjVzBCC',
+      assetScale: 3,
+      maxAmt: '100000000',
+      outstandingAmt: '1043001',
+      sequence: 2447,
+      metadata:
+        '{"name":"US Treasury Bill Token","symbol":"USTBT","decimals":2,"totalSupply":1000000,"issuer":"US Treasury","issueDate":"2024-03-25","maturityDate":"2025-03-25","faceValue":"1000","interestRate":"2.5","interestFrequency":"Quarterly","collateral":"US Government","jurisdiction":"United States","regulatoryCompliance":"SEC Regulations","securityType":"Treasury Bill","external_url":"https://example.com/t-bill-token-metadata.json"}',
+      flags: [],
+    }
+
+    useQuery.mockImplementation(() => ({
+      data,
+    }))
+
+    const value = {
+      amount: '1043001',
+      currency: '0000098F03B3BCE934EE8CAA1DF25A42032388361B9E5A65',
+      isMPT: true,
+    }
+    const wrapper = createWrapper(
+      <Amount value={value} displayIssuer={false} />,
+    )
+
+    expect(wrapper.find('.amount-localized').text()).toEqual('1,043.001')
     wrapper.unmount()
   })
 })
