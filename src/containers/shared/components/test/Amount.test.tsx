@@ -1,10 +1,10 @@
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { mount } from 'enzyme'
+import { QueryClientProvider, useQuery } from 'react-query'
 import { Amount } from '../Amount'
 import i18n from '../../../../i18n/testConfig'
-import { QueryClientProvider, useQuery } from 'react-query'
-import { queryClient } from '../../../shared/QueryClient'
+import { queryClient } from '../../QueryClient'
 
 jest.mock('react-query', () => ({
   ...jest.requireActual('react-query'),
