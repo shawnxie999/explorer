@@ -1,11 +1,11 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { MemoryRouter } from 'react-router'
+import { QueryClientProvider } from 'react-query'
 import i18n from '../../../../../../i18n/testConfig'
 import { AMMAccountHeader, AmmDataType } from '../AMMAccountHeader'
 import { flushPromises } from '../../../../../test/utils'
 import { queryClient } from '../../../../../shared/QueryClient'
-import { QueryClientProvider } from 'react-query'
 
 describe('AMM Account Header', () => {
   const TEST_ACCOUNT_ID = 'rTEST_ACCOUNT'

@@ -1,11 +1,11 @@
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
+import { useQuery, QueryClientProvider } from 'react-query'
 import { TransactionTable } from '../TransactionTable'
 import i18n from '../../../../../i18n/testConfig'
 import mockTx from './mockTransactions.json'
 import { queryClient } from '../../../QueryClient'
-import { useQuery, QueryClientProvider } from 'react-query'
 
 const loadMore = jest.fn()
 

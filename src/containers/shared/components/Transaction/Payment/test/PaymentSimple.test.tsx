@@ -1,3 +1,4 @@
+import { useQuery } from 'react-query'
 import {
   createSimpleWrapperFactory,
   expectSimpleRowLabel,
@@ -11,7 +12,6 @@ import mockPaymentPartial from './mock_data/PaymentWithPartial.json'
 import mockPaymentSendMax from './mock_data/PaymentWithSendMax.json'
 import mockPaymentSourceTag from './mock_data/PaymentWithSourceTag.json'
 import mockPaymentMPT from './mock_data/PaymentMPT.json'
-import { useQuery } from 'react-query'
 
 jest.mock('react-query', () => ({
   ...jest.requireActual('react-query'),

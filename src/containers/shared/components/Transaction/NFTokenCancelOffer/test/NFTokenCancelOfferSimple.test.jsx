@@ -1,12 +1,12 @@
 import { BrowserRouter as Router } from 'react-router-dom'
 import { mount } from 'enzyme'
 import { I18nextProvider } from 'react-i18next'
+import { QueryClientProvider } from 'react-query'
 import { Simple as NFTokenCancelOffer } from '../Simple'
 import transaction from './mock_data/NFTokenCancelOffer.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18n/testConfig'
-import { queryClient } from '../../../../../../containers/shared/QueryClient'
-import { QueryClientProvider } from 'react-query'
+import { queryClient } from '../../../../QueryClient'
 
 describe('NFTokenCancelOffer', () => {
   it.only('handles NFTokenCancelOffer simple view ', () => {

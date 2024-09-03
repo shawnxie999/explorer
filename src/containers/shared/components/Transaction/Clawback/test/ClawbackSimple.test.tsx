@@ -1,10 +1,10 @@
+import { useQuery } from 'react-query'
 import { createSimpleWrapperFactory, expectSimpleRowText } from '../../test'
 import { Simple } from '../Simple'
 import transaction from './mock_data/Clawback.json'
 import transactionFailure from './mock_data/Clawback_Failure.json'
 import transactionMPT from './mock_data/ClawbackMPT.json'
 import transactionMPTFailure from './mock_data/ClawbackMPT_Failure.json'
-import { useQuery } from 'react-query'
 
 jest.mock('react-query', () => ({
   ...jest.requireActual('react-query'),

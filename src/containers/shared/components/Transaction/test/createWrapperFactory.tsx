@@ -3,6 +3,7 @@ import { ReactElement } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { i18n } from 'i18next'
+import { QueryClientProvider } from 'react-query'
 import defaultI18nConfig from '../../../../../i18n/testConfig'
 import summarizeTransaction from '../../../../../rippled/lib/txSummary'
 import {
@@ -10,7 +11,6 @@ import {
   TransactionSimpleComponent,
   TransactionTableDetailComponent,
 } from '../types'
-import { QueryClientProvider } from 'react-query'
 import { testQueryClient } from '../../../../test/QueryClient'
 
 /**
