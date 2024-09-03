@@ -1,10 +1,9 @@
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router-dom'
 import { mount } from 'enzyme'
-import { QueryClientProvider, useQuery } from 'react-query'
+import { useQuery } from 'react-query'
 import { Amount } from '../Amount'
 import i18n from '../../../../i18n/testConfig'
-import { queryClient } from '../../QueryClient'
 
 jest.mock('react-query', () => ({
   ...jest.requireActual('react-query'),
@@ -14,11 +13,9 @@ jest.mock('react-query', () => ({
 describe('Amount', () => {
   const createWrapper = (component: JSX.Element) =>
     mount(
-      <QueryClientProvider client={queryClient}>
-        <I18nextProvider i18n={i18n}>
-          <BrowserRouter>{component}</BrowserRouter>
-        </I18nextProvider>
-      </QueryClientProvider>,
+      <I18nextProvider i18n={i18n}>
+        <BrowserRouter>{component}</BrowserRouter>
+      </I18nextProvider>,
     )
 
   it('handles currency codes that are 3 characters ', () => {

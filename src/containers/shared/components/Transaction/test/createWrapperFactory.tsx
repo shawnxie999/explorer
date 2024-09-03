@@ -10,6 +10,8 @@ import {
   TransactionSimpleComponent,
   TransactionTableDetailComponent,
 } from '../types'
+import { QueryClientProvider } from 'react-query'
+import { testQueryClient } from '../../../../test/QueryClient'
 
 /**
  * Methods that produce createWrapper function for tests
@@ -22,9 +24,11 @@ export function createWrapper(
   i18nConfig?: i18n,
 ): ReactWrapper {
   return mount(
-    <I18nextProvider i18n={i18nConfig || defaultI18nConfig}>
-      <BrowserRouter>{TestComponent}</BrowserRouter>
-    </I18nextProvider>,
+    <QueryClientProvider client={testQueryClient}>
+      <I18nextProvider i18n={i18nConfig || defaultI18nConfig}>
+        <BrowserRouter>{TestComponent}</BrowserRouter>
+      </I18nextProvider>
+    </QueryClientProvider>,
   )
 }
 
