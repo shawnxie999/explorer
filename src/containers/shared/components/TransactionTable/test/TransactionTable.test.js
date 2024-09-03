@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { TransactionTable } from '../TransactionTable'
 import i18n from '../../../../../i18n/testConfig'
 import mockTx from './mockTransactions.json'
+import { queryClient } from '../../../QueryClient'
+import { useQuery, QueryClientProvider } from 'react-query'
 
 const loadMore = jest.fn()
 
@@ -16,17 +18,19 @@ describe('Transaction Table container', () => {
     hasAdditionalResults = false,
   ) =>
     mount(
-      <I18nextProvider i18n={i18n}>
-        <BrowserRouter>
-          <TransactionTable
-            transactions={transactions}
-            emptyMessage={emptyMessage}
-            loading={loading}
-            onLoadMore={onLoadMore}
-            hasAdditionalResults={hasAdditionalResults}
-          />
-        </BrowserRouter>
-      </I18nextProvider>,
+      <QueryClientProvider client={queryClient}>
+        <I18nextProvider i18n={i18n}>
+          <BrowserRouter>
+            <TransactionTable
+              transactions={transactions}
+              emptyMessage={emptyMessage}
+              loading={loading}
+              onLoadMore={onLoadMore}
+              hasAdditionalResults={hasAdditionalResults}
+            />
+          </BrowserRouter>
+        </I18nextProvider>
+      </QueryClientProvider>,
     )
 
   it('renders without crashing', () => {

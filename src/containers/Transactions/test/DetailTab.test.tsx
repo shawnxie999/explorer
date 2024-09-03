@@ -8,14 +8,18 @@ import EmittedPayment from './mock_data/EmittedPayment.json'
 import { DetailTab } from '../DetailTab'
 import i18n from '../../../i18n/testConfigEnglish'
 import { convertHexToString } from '../../../rippled/lib/utils'
+import { queryClient } from '../../shared/QueryClient'
+import { QueryClientProvider } from 'react-query'
 
 describe('DetailTab container', () => {
   const createWrapper = (transaction: any = Transaction) =>
     mount(
       <Router>
-        <I18nextProvider i18n={i18n}>
-          <DetailTab data={transaction} />
-        </I18nextProvider>
+        <QueryClientProvider client={queryClient}>
+          <I18nextProvider i18n={i18n}>
+            <DetailTab data={transaction} />
+          </I18nextProvider>
+        </QueryClientProvider>
       </Router>,
     )
 

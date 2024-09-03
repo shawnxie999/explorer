@@ -5,17 +5,21 @@ import { Simple as NFTokenCancelOffer } from '../Simple'
 import transaction from './mock_data/NFTokenCancelOffer.json'
 import summarizeTransaction from '../../../../../../rippled/lib/txSummary'
 import i18n from '../../../../../../i18n/testConfig'
+import { queryClient } from '../../../../../../containers/shared/QueryClient'
+import { QueryClientProvider } from 'react-query'
 
 describe('NFTokenCancelOffer', () => {
   it.only('handles NFTokenCancelOffer simple view ', () => {
     const wrapper = mount(
-      <I18nextProvider i18n={i18n}>
-        <Router>
-          <NFTokenCancelOffer
-            data={summarizeTransaction(transaction, true).details}
-          />
-        </Router>
-      </I18nextProvider>,
+      <QueryClientProvider client={queryClient}>
+        <I18nextProvider i18n={i18n}>
+          <Router>
+            <NFTokenCancelOffer
+              data={summarizeTransaction(transaction, true).details}
+            />
+          </Router>
+        </I18nextProvider>
+      </QueryClientProvider>,
     )
     expect(wrapper.find('[data-test="token-id"] .value')).toHaveText(
       '000800006203F49C21D5D6E022CB16DE3538F248662FC73C258BA1B200000018',
